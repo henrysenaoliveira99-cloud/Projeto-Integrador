@@ -183,3 +183,25 @@ document.querySelectorAll('.servico-card, .social-card, .ag-card, .sobre-right p
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
   observer.observe(el);
 });
+
+function Login() {
+  let nome = document.getElementById("input-nome-usuario")
+  let senha = document.getElementById("input-senha-usuario")
+
+  fetch("https://api.site.com/algumacoisa", {
+    method: "POST",
+    headers: {
+      // Se precisar de header
+    },
+    body: {
+      name: nome.value,
+      password: senha.value
+    }
+  }).then((response) => {
+    if(!response.ok) {
+      alert("Credenciais inválidas")
+      return
+    }
+    window.location.href="outrapágina"
+  })
+}

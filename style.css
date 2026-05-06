@@ -35,6 +35,13 @@ a { text-decoration: none; color: inherit; }
   padding: 0 24px;
 }
 
+.container-imagem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 /* =====================
    NAVBAR
    ===================== */
@@ -816,3 +823,4 @@ footer {
   .hero-logo-wrap { flex-direction: column; }
   .servicos-grid { justify-content: center; }
 }
+
