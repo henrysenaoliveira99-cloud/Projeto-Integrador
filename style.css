@@ -295,19 +295,40 @@ a { text-decoration: none; color: inherit; }
 
 .servicos-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
+
+
+  .space {
+    width: 33%;
+  }
+  .titulo {
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+
 }
 
 .servicos-header .section-label { color: var(--black); }
-.servicos-header .section-label::after { background: var(--black); }
+/* .servicos-header .section-label::after { background: var(--black); margin: 6px auto 0;} */
+.servicos-header .section-label {
+  text-align: center;
+  width: 100%;
+  display: block;
+  border-bottom: 4px solid black;
+}
 
 .tabs {
   display: flex;
   gap: 4px;
-  align-self: flex-end;
-  margin-bottom: 6px;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 31px;
+  margin-left: auto;
+  width: 33%;
 }
 
 .tab {
@@ -430,10 +451,16 @@ a { text-decoration: none; color: inherit; }
 }
 
 #contato .section-label { color: var(--yellow); }
-#contato .section-label::after { background: var(--yellow); }
+#contato .section-label::after { background: var(--yellow); margin: 6px auto 0;}
+#contato .section-label {
+  text-align: center;
+  width: 100%;
+  display: block
+}
 
 .social-grid {
   display: flex;
+  justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
 }
