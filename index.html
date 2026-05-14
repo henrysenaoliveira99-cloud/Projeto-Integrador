@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR">0
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Novo Stilo – Barbearia Versátil</title>
+
+  <link rel="website icon" href="icone.png" type="image/png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,16 +16,18 @@
   <!-- NAV -->
   <nav id="navbar">
     <div class="nav-brand">NOVO STILO</div>
-    <ul class="nav-links">
-      <li><a href="#sobre">Quem Somos Nós?</a></li>
-      <li><a href="#servicos">Serviços Oferecidos</a></li>
-      <li><a href="#contato">Contato</a></li>
-      <li><a href="#cadastro">Cadastro</a></li>
-      <li><a href="#agendamento" class="nav-cta">Agendamento</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger">&#9776;</button>
-  </nav>
+   <ul class="nav-links">
+  <li><a href="#sobre">Quem Somos Nós?</a></li>
+  <li><a href="#servicos">Serviços Oferecidos</a></li>
+  <li><a href="#contato">Contato</a></li>
+  <li><a href="#cadastro">Login</a></li>
+  <li><a href="#agendamento" class="nav-cta">Agendamento</a></li>
+</ul>
 
+<div id="userStatus"></div>
+
+<button class="hamburger" id="hamburger">&#9776;</button>
+ </nav>
 
   <!-- JOAO MEXEU ATUALIZOU -->
   <!-- HERO -->
@@ -31,14 +36,15 @@
     <div class="hero-content">
       <div class="hero-logo-wrap">
         <div class="hero-icon">'
-      
-      
         </div>
         <div class="container-imagem">
           <img src="logo.png" alt="logo" width="50%"/> <!-- Joao colocou a imagem aqui, não mexer -->
         </div>
       </div>
       <div class="hero-badge">DESDE 2015</div>
+      <head>
+        <link rel="website icon" href="icone.png" type="image/png">
+      </head>
       </div>
   </section>
 
@@ -88,35 +94,51 @@
           <div class="servicos-grid">
             <div class="servico-card">
               <div class="servico-icon">
-                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="28" r="18" fill="#111"/><path d="M22 55 Q40 45 58 55 L58 72 Q40 80 22 72Z" fill="#111"/><ellipse cx="40" cy="28" rx="10" ry="12" fill="#FFD700"/><path d="M30 34 Q40 42 50 34" stroke="#111" stroke-width="2" fill="none"/></svg>
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="28" r="18" fill="#111"/>
+                  <path d="M22 55 Q40 45 58 55 L58 72 Q40 80 22 72Z" fill="#111"/>
+                  <ellipse cx="40" cy="28" rx="10" ry="12" fill="#FFD700"/>
+                  <path d="M30 34 Q40 42 50 34" stroke="#111" stroke-width="2" fill="none"/></svg>
               </div>
               <p>CORTE DE CABELO</p>
               <span class="price">R$ 35,00</span>
             </div>
             <div class="servico-card">
               <div class="servico-icon">
-                <svg viewBox="0 0 80 80" fill="none"><ellipse cx="40" cy="50" rx="22" ry="16" fill="#111"/><path d="M18 46 Q40 38 62 46" stroke="#FFD700" stroke-width="3" fill="none"/></svg>
+                <svg viewBox="0 0 80 80" fill="none">
+                  <ellipse cx="40" cy="50" rx="22" ry="16" fill="#111"/>
+                  <path d="M18 46 Q40 38 62 46" stroke="#FFD700" stroke-width="3" fill="none"/>
+                </svg>
               </div>
               <p>BARBA</p>
               <span class="price">R$ 25,00</span>
             </div>
             <div class="servico-card">
               <div class="servico-icon">
-                <svg viewBox="0 0 80 80" fill="none"><path d="M15 38 Q25 30 40 32 Q55 30 65 38" stroke="#111" stroke-width="10" stroke-linecap="round" fill="none"/></svg>
+                <svg viewBox="0 0 80 80" fill="none">
+                  <path d="M15 38 Q25 30 40 32 Q55 30 65 38" stroke="#111" stroke-width="10" stroke-linecap="round" fill="none"/>
+                </svg>
               </div>
               <p>SOBRANCELHA</p>
               <span class="price">R$ 15,00</span>
             </div>
             <div class="servico-card">
               <div class="servico-icon">
-                <svg viewBox="0 0 80 80" fill="none"><ellipse cx="40" cy="50" rx="14" ry="10" fill="#111"/><ellipse cx="40" cy="30" rx="18" ry="14" fill="#111"/><ellipse cx="40" cy="30" rx="10" ry="8" fill="#FFD700"/></svg>
+                <svg viewBox="0 0 80 80" fill="none">
+                  <ellipse cx="40" cy="50" rx="14" ry="10" fill="#111"/>
+                  <ellipse cx="40" cy="30" rx="18" ry="14" fill="#111"/>
+                  <ellipse cx="40" cy="30" rx="10" ry="8" fill="#FFD700"/>
+                </svg>
               </div>
               <p>CORTE INFANTIL</p>
               <span class="price">R$ 28,00</span>
             </div>
             <div class="servico-card">
               <div class="servico-icon">
-                <svg viewBox="0 0 80 80" fill="none"><rect x="34" y="10" width="12" height="40" rx="4" fill="#111"/><rect x="28" y="48" width="24" height="10" rx="4" fill="#FFD700"/><circle cx="40" cy="65" r="6" fill="#111"/></svg>
+                <svg viewBox="0 0 80 80" fill="none">
+                  <rect x="34" y="10" width="12" height="40" rx="4" fill="#111"/>
+                  <rect x="28" y="48" width="24" height="10" rx="4" fill="#FFD700"/>
+                  <circle cx="40" cy="65" r="6" fill="#111"/>
+                </svg>
               </div>
               <p>TINTURAS</p>
               <span class="price">R$ 60,00</span>
@@ -170,23 +192,47 @@
     </div>
   </section>
 
-  <!-- CADASTRO -->
+   <!-- CADASTRO -->
   <section id="cadastro">
     <div class="container">
       <h2 class="section-label center">LOGIN</h2>
+
       <div class="login-box">
         <div class="login-title">LOGIN</div>
+
         <form id="loginForm">
+
           <div class="input-group">
             <span class="input-icon">&#128100;</span>
-            <input type="text" placeholder="Usuário" required />
+
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="E-mail"
+              required
+            />
           </div>
+
           <div class="input-group">
             <span class="input-icon">&#128274;</span>
-            <input type="password" placeholder="Senha" required />
+
+            <input
+              type="password"
+              id="loginSenha"
+              placeholder="Senha"
+              required
+            />
           </div>
-          <button type="submit" class="btn-login">ENTRAR</button>
-          <p class="cadastro-link">Não tem conta? <a href="#">Cadastre-se</a></p>
+
+          <button type="submit" class="btn-login">
+            ENTRAR
+          </button>
+
+          <p class="cadastro-link">
+            Não tem conta?
+            <a href="cadastro.html" target="_blank">Cadastre-se </a>
+          </p>
+
         </form>
       </div>
     </div>
@@ -243,6 +289,6 @@
     <p>AVENIDA NEWTON PRADO, 3030 – CENTRO, PIRASSUNUNGA</p>
   </footer>
 
-  <script src="script.js"></script>
+ <script type="module" src="script.js"></script>
 </body>
 </html>

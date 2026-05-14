@@ -1,3 +1,11 @@
+import { auth } from "./js/firebase-config.js";
+
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 /* =====================
    NOVO STILO – script.js
    ===================== */
@@ -149,11 +157,42 @@ document.getElementById('btnAgendar').addEventListener('click', () => {
 });
 
 // ── Login Form ────────────────────────────────────
-document.getElementById('loginForm').addEventListener('submit', e => {
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  showToast('✅  Login realizado com sucesso!');
-});
 
+  const email = document.getElementById('loginEmail').value;
+  const senha = document.getElementById('loginSenha').value;
+
+  try {
+
+    await signInWithEmailAndPassword(auth, email, senha);
+
+    showToast('✅ Login realizado com sucesso!');
+
+    // redirecionamento opcional
+    // window.location.href = "painel.html";
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (error.code === 'auth/user-not-found') {
+      showToast('❌ Usuário não encontrado!');
+    }
+
+    else if (error.code === 'auth/wrong-password') {
+      showToast('❌ Senha incorreta!');
+    }
+
+    else if (error.code === 'auth/invalid-email') {
+      showToast('❌ E-mail inválido!');
+    }
+
+    else {
+      showToast('❌ Erro ao fazer login!');
+    }
+  }
+});
 // ── Toast ────────────────────────────────────────
 function showToast(msg) {
   const existing = document.querySelector('.toast');
@@ -184,24 +223,61 @@ document.querySelectorAll('.servico-card, .social-card, .ag-card, .sobre-right p
   observer.observe(el);
 });
 
-function Login() {
-  let nome = document.getElementById("input-nome-usuario")
-  let senha = document.getElementById("input-senha-usuario")
+// ── Usuário logado ───────────────────────────────
 
-  fetch("https://api.site.com/algumacoisa", {
-    method: "POST",
-    headers: {
-      // Se precisar de header
-    },
-    body: {
-      name: nome.value,
-      password: senha.value
-    }
-  }).then((response) => {
-    if(!response.ok) {
-      alert("Credenciais inválidas")
-      return
-    }
-    window.location.href="outrapágina"
-  })
+onAuthStateChanged(auth, (user) => {
+
+  const userStatus = document.getElementById('userStatus');
+
+ if (user) {
+
+  document.getElementById('cadastro').style.display = 'none';
+
+  console.log("Usuário logado:", user.email);
+
+  userStatus.innerHTML = `
+    <span style="
+      color:#FFD700;
+      font-weight:bold;
+      margin-right:10px;
+    ">
+      👤 ${user.email}
+    </span>
+
+    <button id="logoutBtn" style="
+      padding:6px 12px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      background:#FFD700;
+      font-weight:bold;
+    ">
+      SAIR
+    </button>
+  `;
+
+    // botão logout
+    document.getElementById('logoutBtn')
+      .addEventListener('click', async () => {
+
+        await signOut(auth);
+
+        showToast('👋 Logout realizado!');
+
+      });
+
+} else {
+
+  console.log("Nenhum usuário logado");
+
+  document.getElementById('cadastro').style.display = 'block';
+
+  userStatus.innerHTML = `
+    <span style="color:white;">
+      Não logado
+    </span>
+  `;
+
 }
+
+});
