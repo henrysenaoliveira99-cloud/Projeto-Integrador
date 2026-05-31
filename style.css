@@ -415,7 +415,7 @@ a { text-decoration: none; color: inherit; }
   background: #fff8d0;
 }
 
-.servico-icon { width: 64px; height: 64px; }
+.servico-icon { width: 155px; height: 80px; }
 .servico-icon svg { width: 100%; height: 100%; }
 
 .servico-card p {
