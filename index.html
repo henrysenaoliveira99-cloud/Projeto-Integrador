@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- NAV -->
+  <!-- Cabeçalho do site -->
   <nav id="navbar">
     <div class="nav-brand">NOVO STILO</div>
     <ul class="nav-links">
@@ -29,7 +29,7 @@
     <button class="hamburger" id="hamburger">&#9776;</button>
   </nav>
 
-  <!-- HERO -->
+  <!-- Parte da logo com uma imagem ao fundo -->
   <section id="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -43,9 +43,11 @@
     </div>
   </section>
 
-  <!-- SOBRE -->
+  <!-- Sobre a Barbearia -->
   <section id="sobre">
     <div class="container sobre-grid">
+
+  <!-- Imagem na parte do sobre -->
       <div class="sobre-left">
         <h2 class="section-label">QUEM SOMOS NÓS?</h2>
         <div class="sobre-img-wrap">
@@ -56,6 +58,8 @@
           <div class="bubble bubble-2">Levando a beleza aos homens</div>
         </div>
       </div>
+
+  <!-- Texto explicando sobre a barbearia -->
       <div class="sobre-right">
         <h3 class="sobre-title">NOVO STILO<br><span>BARBEARIA VERSÁTIL</span></h3>
         <p>Somos a Novo Stilo Barbearia – um espaço pensado para oferecer o estilo e atendimento de cada cliente. Somos um ambiente acolhedor, fiel à tradição e à modernidade, se dedicando para oferecer uma experiência única.</p>
@@ -65,7 +69,7 @@
     </div>
   </section>
 
-  <!-- PARALLAX HERO -->
+  <!-- Imagem apresentando a div dos barbeiros -->
   <div class="px-wrap" id="pxWrap">
     <canvas id="particles"></canvas>
     <div class="px-bg" id="pxBg"></div>
@@ -78,6 +82,7 @@
     </div>
   </div>
 
+  <!-- Cards dos barbeiros -->
   <div class="barb-section">
     <div class="barb-cards reveal visible" id="barbCards">
       <div class="barb-card">
@@ -131,7 +136,7 @@
     </div>
   </div>
 
-  <!-- SERVIÇOS -->
+  <!-- Serviços oferecidos -->
   <section id="servicos">
     <div class="container">
       <div class="servicos-header">
@@ -139,11 +144,14 @@
         <div class="titulo">
           <h2 class="section-label left">SERVIÇOS OFERECIDOS</h2>
         </div>
+
+  <!-- Tabela que mostra os valores e os combos -->
         <div class="tabs">
           <button class="tab active" data-tab="valores">VALORES</button>
           <button class="tab" data-tab="combos">COMBOS</button>
         </div>
       </div>
+
       <div class="servicos-body">
         <div class="servicos-promo">
           <p>Não deixe de<br>aproveitar a<br>oportunidade!</p>
@@ -200,7 +208,7 @@
     </div>
   </section>
 
-  <!-- AGENDAMENTO -->
+  <!-- Agendamento -->
   <section id="agendamento">
     <div class="agendamento-brand">
       <span class="script-title">Novo Estilo</span>
@@ -208,6 +216,8 @@
     <div class="container">
       <h2 class="section-label center">AGENDAMENTO</h2>
       <div class="agendamento-grid">
+
+  <!-- Seleção do barbeiro para cortar -->
         <div class="ag-card">
           <h4>BARBEIRO</h4>
           <div class="barbeiro-list" id="barbeiroList">
@@ -218,9 +228,13 @@
           </div>
         </div>
         <div class="ag-card">
+
+  <!-- Seleção do horário -->
           <h4>HORÁRIO</h4>
           <div class="relogio">
             <div class="hora-display" id="horaDisplay">14:00</div>
+
+  <!-- Controles de hora, quando o respectivo botão for clicado, o horário deve aumentar ou diminuir -->
             <div class="hora-controls">
               <button onclick="changeHour(1)">&#9650;</button>
               <button onclick="changeHour(-1)">&#9660;</button>
@@ -231,6 +245,8 @@
             </div>
           </div>
         </div>
+
+  <!-- Parte do calendário -->
         <div class="ag-card">
           <h4>DATAS</h4>
           <div class="calendario" id="calendario"></div>
@@ -249,7 +265,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- Rodapé do site -->
   <footer>
     <section id="contato">
       <div class="container">
