@@ -852,7 +852,7 @@ footer {
 .px-wrap{position:relative;height:520px;overflow:hidden;}
 .px-bg{
   position:absolute;top:-80px;left:0;right:0;bottom:-80px;
-  background:url('/barbearia.jpeg') center/cover no-repeat;
+  background:url('./barbearia.jpeg') center/cover no-repeat;
   will-change:transform;
 }
 .px-overlay{
