@@ -17,8 +17,8 @@
       <li><a href="#servicos">Serviços Oferecidos</a></li>
       <li><a href="#contato">Contato</a></li>
       <li>
-        <!-- Botão LOGIN aparece apenas quando deslogado -->
-        <button id="loginNavBtn" onclick="openLoginModal()" class="nav-login-btn">
+        <!-- Botão LOGIN aparece apenas quando deslogado — onclick removido, listener adicionado no script.js -->
+        <button id="loginNavBtn" class="nav-login-btn">
           &#128100; LOGIN
         </button>
       </li>
@@ -210,9 +210,9 @@
 
   <!-- Modal de login -->
   <div id="loginModal" class="login-modal" aria-modal="true" role="dialog" aria-labelledby="loginModalTitle">
-    <div class="modal-backdrop" onclick="closeLoginModal()"></div>
+    <div class="modal-backdrop" id="modalBackdrop"></div>
     <div class="modal-box">
-      <button class="modal-close" onclick="closeLoginModal()" aria-label="Fechar">&#10005;</button>
+      <button class="modal-close" id="modalCloseBtn" aria-label="Fechar">&#10005;</button>
       <h2 id="loginModalTitle" class="login-title">LOGIN</h2>
 
       <form id="loginForm" novalidate>
@@ -262,14 +262,14 @@
           <div class="relogio">
             <div class="hora-display" id="horaDisplay">14:00</div>
 
-  <!-- Controles de hora, quando o respectivo botão for clicado, o horário deve aumentar ou diminuir -->
+  <!-- Controles de hora — listeners adicionados via script.js -->
             <div class="hora-controls">
-              <button onclick="changeHour(1)">&#9650;</button>
-              <button onclick="changeHour(-1)">&#9660;</button>
+              <button id="hourUp">&#9650;</button>
+              <button id="hourDown">&#9660;</button>
             </div>
             <div class="min-controls">
-              <button onclick="changeMin(1)">&#9650;</button>
-              <button onclick="changeMin(-1)">&#9660;</button>
+              <button id="minUp">&#9650;</button>
+              <button id="minDown">&#9660;</button>
             </div>
           </div>
         </div>
@@ -317,46 +317,25 @@
     <p>AVENIDA NEWTON PRADO, 3030 – CENTRO, PIRASSUNUNGA</p>
   </footer>
 
-<!-- Botão de Acessibilidade -->
-<button id="acessibilidade-btn" aria-label="Acessibilidade">
-  ♿
-</button>
-
-<!-- Menu de Acessibilidade -->
-<div id="acessibilidade-menu">
-  <h3>Acessibilidade</h3>
-
-  <button onclick="alterarFonte(2)">
-    Aumentar Fonte +
+  <!-- Botão de Acessibilidade -->
+  <button id="acessibilidade-btn" aria-label="Acessibilidade" aria-expanded="false">
+    ♿
   </button>
 
-  <button onclick="alterarFonte(-2)">
-    Diminuir Fonte -
-  </button>
+  <!-- Menu de Acessibilidade -->
+  <div id="acessibilidade-menu">
+    <h3>Acessibilidade</h3>
+    <button id="btnAumentarFonte">Aumentar Fonte +</button>
+    <button id="btnDiminuirFonte">Diminuir Fonte -</button>
+    <button id="btnResetarFonte">Restaurar Fonte</button>
+    <hr>
+    <button id="btnProtanopia">Protanopia</button>
+    <button id="btnDeuteranopia">Deuteranopia</button>
+    <button id="btnTritanopia">Tritanopia</button>
+    <button id="btnRemoverFiltros">Remover Filtros</button>
+  </div>
 
-  <button onclick="resetarFonte()">
-    Restaurar Fonte
-  </button>
-
-  <hr>
-
-  <button onclick="aplicarFiltro('protanopia')">
-    Protanopia
-  </button>
-
-  <button onclick="aplicarFiltro('deuteranopia')">
-    Deuteranopia
-  </button>
-
-  <button onclick="aplicarFiltro('tritanopia')">
-    Tritanopia
-  </button>
-
-  <button onclick="removerFiltros()">
-    Remover Filtros
-  </button>
-
-    <script type="module" src="script.js"></script>
-</div>
+  <!-- Script carregado corretamente fora de qualquer div, antes do </body> -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
