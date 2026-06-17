@@ -1,6 +1,5 @@
 import { auth } from "./firebase-config.js";
 
-
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
@@ -69,15 +68,26 @@ function updateClock() {
   updateSummary();
 }
 
-window.changeHour = function(dir) {
+function changeHour(dir) {
   hours = (hours + dir + 24) % 24;
   updateClock();
-};
+}
 
-window.changeMin = function(dir) {
+function changeMin(dir) {
   mins = (mins + dir * 30 + 60) % 60;
   updateClock();
-};
+}
+
+// Listeners dos botões de hora/minuto (substituem os onclick inline)
+const hourUp   = document.getElementById('hourUp');
+const hourDown = document.getElementById('hourDown');
+const minUp    = document.getElementById('minUp');
+const minDown  = document.getElementById('minDown');
+
+if (hourUp)   hourUp.addEventListener('click',   () => changeHour(1));
+if (hourDown) hourDown.addEventListener('click', () => changeHour(-1));
+if (minUp)    minUp.addEventListener('click',    () => changeMin(1));
+if (minDown)  minDown.addEventListener('click',  () => changeMin(-1));
 
 // ── Calendário ──────────────────────────────────────
 let calYear, calMonth, selectedDay = null;
@@ -99,9 +109,9 @@ function renderCal() {
 
   let html = `
     <div class="cal-header">
-      <button onclick="prevMonth()">&#8249;</button>
+      <button id="calPrev">&#8249;</button>
       <span>${monthNames[calMonth]} ${calYear}</span>
-      <button onclick="nextMonth()">&#8250;</button>
+      <button id="calNext">&#8250;</button>
     </div>
     <div class="cal-grid">
       <div class="cal-day-label">D</div>
@@ -123,30 +133,37 @@ function renderCal() {
     let cls = 'cal-day';
     if (isToday) cls += ' today';
     if (isSel)   cls += ' selected';
-    html += `<div class="${cls}" onclick="selectDay(${d})">${d}</div>`;
+    html += `<div class="${cls}" data-day="${d}">${d}</div>`;
   }
 
   html += `</div>`;
   container.innerHTML = html;
+
+  // Listeners do calendário (sem onclick inline)
+  container.querySelector('#calPrev')?.addEventListener('click', prevMonth);
+  container.querySelector('#calNext')?.addEventListener('click', nextMonth);
+  container.querySelectorAll('.cal-day:not(.empty)').forEach(el => {
+    el.addEventListener('click', () => selectDay(Number(el.dataset.day)));
+  });
 }
 
-window.prevMonth = function() {
+function prevMonth() {
   calMonth--;
   if (calMonth < 0) { calMonth = 11; calYear--; }
   renderCal();
-};
+}
 
-window.nextMonth = function() {
+function nextMonth() {
   calMonth++;
   if (calMonth > 11) { calMonth = 0; calYear++; }
   renderCal();
-};
+}
 
-window.selectDay = function(d) {
+function selectDay(d) {
   selectedDay = d;
   renderCal();
   updateSummary();
-};
+}
 
 // ── Summary ─────────────────────────────────────────
 function updateSummary() {
@@ -171,21 +188,40 @@ if (btnAgendar) {
 }
 
 // ── Modal de login ─────────────────────────────────
-window.openLoginModal = function() {
+function openLoginModal() {
   const modal = document.getElementById('loginModal');
   if (!modal) return;
   modal.classList.add('open');
   const emailInput = document.getElementById('loginEmail');
   if (emailInput) emailInput.focus();
-};
+}
 
-window.closeLoginModal = function() {
+function closeLoginModal() {
   const modal = document.getElementById('loginModal');
   if (modal) modal.classList.remove('open');
-};
+}
 
+// Botão LOGIN na navbar
+const loginNavBtn = document.getElementById('loginNavBtn');
+if (loginNavBtn) {
+  loginNavBtn.addEventListener('click', openLoginModal);
+}
+
+// Botão fechar (X) do modal
+const modalCloseBtn = document.getElementById('modalCloseBtn');
+if (modalCloseBtn) {
+  modalCloseBtn.addEventListener('click', closeLoginModal);
+}
+
+// Fechar ao clicar no backdrop
+const modalBackdrop = document.getElementById('modalBackdrop');
+if (modalBackdrop) {
+  modalBackdrop.addEventListener('click', closeLoginModal);
+}
+
+// Fechar com Escape
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') window.closeLoginModal();
+  if (e.key === 'Escape') closeLoginModal();
 });
 
 // ── Login Form ────────────────────────────────────
@@ -193,47 +229,33 @@ const loginForm = document.getElementById('loginForm');
 
 if (loginForm) {
   loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const email = document.getElementById('loginEmail').value;
-  const senha = document.getElementById('loginSenha').value;
+    const email = document.getElementById('loginEmail').value;
+    const senha = document.getElementById('loginSenha').value;
 
-  try {
+    try {
+      await signInWithEmailAndPassword(auth, email, senha);
+      closeLoginModal();
+      showToast('✅ Login realizado com sucesso!');
+    } catch (error) {
+      console.error(error);
 
-    await signInWithEmailAndPassword(auth, email, senha);
-
-    window.closeLoginModal();
-    showToast('✅ Login realizado com sucesso!');
-
-    // redirecionamento opcional
-    // window.location.href = "painel.html";
-
-  } catch (error) {
-
-    console.error(error);
-
-    if (error.code === 'auth/user-not-found') {
-      showToast('❌ Usuário não encontrado!');
+      if (error.code === 'auth/user-not-found') {
+        showToast('❌ Usuário não encontrado!');
+      } else if (error.code === 'auth/wrong-password') {
+        showToast('❌ Senha incorreta!');
+      } else if (error.code === 'auth/invalid-email') {
+        showToast('❌ E-mail inválido!');
+      } else if (error.code === 'auth/invalid-credential') {
+        showToast('❌ E-mail ou senha incorretos!');
+      } else {
+        showToast('❌ Erro ao fazer login!');
+      }
     }
-
-    else if (error.code === 'auth/wrong-password') {
-      showToast('❌ Senha incorreta!');
-    }
-
-    else if (error.code === 'auth/invalid-email') {
-      showToast('❌ E-mail inválido!');
-    }
-
-    else if (error.code === 'auth/invalid-credential') {
-      showToast('❌ E-mail ou senha incorretos!');
-    }
-
-    else {
-      showToast('❌ Erro ao fazer login!');
-    }
-  }
-});
+  });
 }
+
 // ── Toast ────────────────────────────────────────
 function showToast(msg) {
   const existing = document.querySelector('.toast');
@@ -247,7 +269,7 @@ function showToast(msg) {
   setTimeout(() => toast.remove(), 3000);
 }
 
-// ── Scroll reveal (simples) ──────────────────────
+// ── Scroll reveal ──────────────────────────────────
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -264,83 +286,55 @@ document.querySelectorAll('.servico-card, .social-card, .ag-card, .sobre-right p
   observer.observe(el);
 });
 
-// ── Usuário logado ───────────────────────────────
-
+// ── Usuário logado ────────────────────────────────
 onAuthStateChanged(auth, (user) => {
-
-  const userStatus = document.getElementById('userStatus');
-  const cadastro = document.getElementById('cadastro');
+  const userStatus  = document.getElementById('userStatus');
+  const cadastro    = document.getElementById('cadastro');
   const loginNavBtn = document.getElementById('loginNavBtn');
 
- if (user) {
+  if (user) {
+    if (cadastro)    cadastro.style.display    = 'none';
+    if (loginNavBtn) loginNavBtn.style.display = 'none';
+    if (!userStatus) return;
 
-  if (cadastro) cadastro.style.display = 'none';
-  if (loginNavBtn) loginNavBtn.style.display = 'none';
-  if (!userStatus) return;
+    console.log("Usuário logado:", user.email);
 
-  console.log("Usuário logado:", user.email);
+    userStatus.innerHTML = `
+      <span style="color:#FFD700;font-weight:bold;margin-right:10px;">
+        👤 ${user.email}
+      </span>
+      <button id="logoutBtn" style="
+        padding:6px 12px;border:none;border-radius:6px;
+        cursor:pointer;background:#FFD700;font-weight:bold;
+      ">SAIR</button>
+    `;
 
-  userStatus.innerHTML = `
-    <span style="
-      color:#FFD700;
-      font-weight:bold;
-      margin-right:10px;
-    ">
-      👤 ${user.email}
-    </span>
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await signOut(auth);
+      showToast('👋 Logout realizado!');
+    });
 
-    <button id="logoutBtn" style="
-      padding:6px 12px;
-      border:none;
-      border-radius:6px;
-      cursor:pointer;
-      background:#FFD700;
-      font-weight:bold;
-    ">
-      SAIR
-    </button>
-  `;
+  } else {
+    console.log("Nenhum usuário logado");
+    if (cadastro)    cadastro.style.display    = 'block';
+    if (loginNavBtn) loginNavBtn.style.display = '';
+    if (!userStatus) return;
 
-    // botão logout
-    document.getElementById('logoutBtn')
-      .addEventListener('click', async () => {
-
-        await signOut(auth);
-
-        showToast('👋 Logout realizado!');
-
-      });
-
-} else {
-
-  console.log("Nenhum usuário logado");
-
-  if (cadastro) cadastro.style.display = 'block';
-  if (loginNavBtn) loginNavBtn.style.display = '';
-  if (!userStatus) return;
-
-  userStatus.innerHTML = `
-    <span style="color:white;">
-      Não logado
-    </span>
-  `;
-
-}
-
+    userStatus.innerHTML = `<span style="color:white;">Não logado</span>`;
+  }
 });
 
 // =====================
-// ACESSIBILIDADE – Novo Stilo Barbearia
+// ACESSIBILIDADE
 // =====================
 
-// ── Tamanho de fonte ──────────────────────────────────────────
-const FONTE_MIN = 12;
-const FONTE_MAX = 24;
+const FONTE_MIN    = 12;
+const FONTE_MAX    = 24;
 const FONTE_PADRAO = 16;
 
 function alterarFonte(delta) {
   const tamanhoAtual = parseFloat(getComputedStyle(document.documentElement).fontSize);
-  const novoTamanho = Math.min(FONTE_MAX, Math.max(FONTE_MIN, tamanhoAtual + delta));
+  const novoTamanho  = Math.min(FONTE_MAX, Math.max(FONTE_MIN, tamanhoAtual + delta));
   document.documentElement.style.fontSize = novoTamanho + 'px';
 }
 
@@ -348,7 +342,6 @@ function resetarFonte() {
   document.documentElement.style.fontSize = FONTE_PADRAO + 'px';
 }
 
-// ── Filtros de daltonismo ─────────────────────────────────────
 const FILTROS = {
   protanopia:   'url("data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'p\'><feColorMatrix type=\'matrix\' values=\'0.567 0.433 0 0 0  0.558 0.442 0 0 0  0 0.242 0.758 0 0  0 0 0 1 0\'/></filter></svg>#p")',
   deuteranopia: 'url("data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'d\'><feColorMatrix type=\'matrix\' values=\'0.625 0.375 0 0 0  0.7 0.3 0 0 0  0 0.3 0.7 0 0  0 0 0 1 0\'/></filter></svg>#d")',
@@ -363,8 +356,8 @@ function removerFiltros() {
   document.body.style.filter = '';
 }
 
-// ── Menu de acessibilidade (abrir/fechar) ─────────────────────
-const btnAcessibilidade = document.getElementById('acessibilidade-btn');
+// Listeners do menu de acessibilidade (substituem os onclick inline)
+const btnAcessibilidade  = document.getElementById('acessibilidade-btn');
 const menuAcessibilidade = document.getElementById('acessibilidade-menu');
 
 if (btnAcessibilidade && menuAcessibilidade) {
@@ -374,7 +367,6 @@ if (btnAcessibilidade && menuAcessibilidade) {
     btnAcessibilidade.setAttribute('aria-expanded', String(!aberto));
   });
 
-// Fechar ao clicar fora do menu
   document.addEventListener('click', (e) => {
     if (
       menuAcessibilidade.style.display === 'block' &&
@@ -386,8 +378,11 @@ if (btnAcessibilidade && menuAcessibilidade) {
     }
   });
 }
-// ── Expor funções globalmente (chamadas inline no HTML) ────────
-window.alterarFonte  = alterarFonte;
-window.resetarFonte  = resetarFonte;
-window.aplicarFiltro = aplicarFiltro;
-window.removerFiltros = removerFiltros;
+
+document.getElementById('btnAumentarFonte')?.addEventListener('click',  () => alterarFonte(2));
+document.getElementById('btnDiminuirFonte')?.addEventListener('click',  () => alterarFonte(-2));
+document.getElementById('btnResetarFonte')?.addEventListener('click',   () => resetarFonte());
+document.getElementById('btnProtanopia')?.addEventListener('click',     () => aplicarFiltro('protanopia'));
+document.getElementById('btnDeuteranopia')?.addEventListener('click',   () => aplicarFiltro('deuteranopia'));
+document.getElementById('btnTritanopia')?.addEventListener('click',     () => aplicarFiltro('tritanopia'));
+document.getElementById('btnRemoverFiltros')?.addEventListener('click', () => removerFiltros());
