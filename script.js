@@ -1,4 +1,5 @@
-import { auth } from "./js/firebase-config.js";
+import { auth } from "./firebase-config.js";
+
 
 import {
   signInWithEmailAndPassword,
@@ -14,28 +15,35 @@ import {
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.querySelector('.nav-links');
 
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+}
 
 // Fechar menu ao clicar em link
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'));
-});
+if (navLinks) {
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+}
 
 // ── Navbar scroll ──────────────────────────────────
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('navbar');
+  if (!nav) return;
   nav.style.boxShadow = window.scrollY > 20 ? '0 4px 20px rgba(0,0,0,0.5)' : '';
 });
 
 // ── Tabs Serviços ──────────────────────────────────
 document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', () => {
+    const content = document.getElementById('tab-' + btn.dataset.tab);
+    if (!content) return;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    content.classList.add('active');
   });
 });
 
@@ -56,7 +64,8 @@ let hours = 14, mins = 0;
 function pad(n) { return String(n).padStart(2, '0'); }
 
 function updateClock() {
-  document.getElementById('horaDisplay').textContent = `${pad(hours)}:${pad(mins)}`;
+  const horaDisplay = document.getElementById('horaDisplay');
+  if (horaDisplay) horaDisplay.textContent = `${pad(hours)}:${pad(mins)}`;
   updateSummary();
 }
 
@@ -82,6 +91,7 @@ let calYear, calMonth, selectedDay = null;
 
 function renderCal() {
   const container = document.getElementById('calendario');
+  if (!container) return;
   const now = new Date();
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
@@ -141,23 +151,53 @@ window.selectDay = function(d) {
 // ── Summary ─────────────────────────────────────────
 function updateSummary() {
   const el = document.getElementById('agSummary');
+  if (!el) return;
   if (!selectedDay) { el.textContent = ''; return; }
   const monthNames = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   el.textContent = `${selectedBarbeiro} – ${pad(selectedDay)} ${monthNames[calMonth]} ${calYear} às ${pad(hours)}:${pad(mins)}`;
 }
 
 // ── Agendar ─────────────────────────────────────────
-document.getElementById('btnAgendar').addEventListener('click', () => {
-  if (!selectedDay) {
-    showToast('⚠️  Selecione uma data no calendário!');
-    return;
-  }
-  const monthNames = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  showToast(`✅  Agendamento confirmado!\n${selectedBarbeiro} – ${pad(selectedDay)} ${monthNames[calMonth]} às ${pad(hours)}:${pad(mins)}`);
+const btnAgendar = document.getElementById('btnAgendar');
+if (btnAgendar) {
+  btnAgendar.addEventListener('click', () => {
+    if (!selectedDay) {
+      showToast('⚠️  Selecione uma data no calendário!');
+      return;
+    }
+    const monthNames = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    showToast(`✅  Agendamento confirmado!\n${selectedBarbeiro} – ${pad(selectedDay)} ${monthNames[calMonth]} às ${pad(hours)}:${pad(mins)}`);
+  });
+}
+
+// ── Modal de login ─────────────────────────────────
+window.openLoginModal = function() {
+  const modal = document.getElementById('loginModal');
+  if (!modal) return;
+  modal.classList.add('open');
+  const emailInput = document.getElementById('loginEmail');
+  if (emailInput) emailInput.focus();
+};
+
+function testeLogin(){
+  console.log("Clickou");
+  return;
+}
+
+window.closeLoginModal = function() {
+  const modal = document.getElementById('loginModal');
+  if (modal) modal.classList.remove('open');
+};
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') window.closeLoginModal();
 });
 
 // ── Login Form ────────────────────────────────────
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
+const loginForm = document.getElementById('loginForm');
+
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const email = document.getElementById('loginEmail').value;
@@ -167,6 +207,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     await signInWithEmailAndPassword(auth, email, senha);
 
+    window.closeLoginModal();
     showToast('✅ Login realizado com sucesso!');
 
     // redirecionamento opcional
@@ -188,11 +229,16 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       showToast('❌ E-mail inválido!');
     }
 
+    else if (error.code === 'auth/invalid-credential') {
+      showToast('❌ E-mail ou senha incorretos!');
+    }
+
     else {
       showToast('❌ Erro ao fazer login!');
     }
   }
 });
+}
 // ── Toast ────────────────────────────────────────
 function showToast(msg) {
   const existing = document.querySelector('.toast');
@@ -228,10 +274,14 @@ document.querySelectorAll('.servico-card, .social-card, .ag-card, .sobre-right p
 onAuthStateChanged(auth, (user) => {
 
   const userStatus = document.getElementById('userStatus');
+  const cadastro = document.getElementById('cadastro');
+  const loginNavBtn = document.getElementById('loginNavBtn');
 
  if (user) {
 
-  document.getElementById('cadastro').style.display = 'none';
+  if (cadastro) cadastro.style.display = 'none';
+  if (loginNavBtn) loginNavBtn.style.display = 'none';
+  if (!userStatus) return;
 
   console.log("Usuário logado:", user.email);
 
@@ -270,7 +320,9 @@ onAuthStateChanged(auth, (user) => {
 
   console.log("Nenhum usuário logado");
 
-  document.getElementById('cadastro').style.display = 'block';
+  if (cadastro) cadastro.style.display = 'block';
+  if (loginNavBtn) loginNavBtn.style.display = '';
+  if (!userStatus) return;
 
   userStatus.innerHTML = `
     <span style="color:white;">
@@ -281,3 +333,67 @@ onAuthStateChanged(auth, (user) => {
 }
 
 });
+
+// =====================
+// ACESSIBILIDADE – Novo Stilo Barbearia
+// =====================
+
+// ── Tamanho de fonte ──────────────────────────────────────────
+const FONTE_MIN = 12;
+const FONTE_MAX = 24;
+const FONTE_PADRAO = 16;
+
+function alterarFonte(delta) {
+  const tamanhoAtual = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  const novoTamanho = Math.min(FONTE_MAX, Math.max(FONTE_MIN, tamanhoAtual + delta));
+  document.documentElement.style.fontSize = novoTamanho + 'px';
+}
+
+function resetarFonte() {
+  document.documentElement.style.fontSize = FONTE_PADRAO + 'px';
+}
+
+// ── Filtros de daltonismo ─────────────────────────────────────
+const FILTROS = {
+  protanopia:   'url("data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'p\'><feColorMatrix type=\'matrix\' values=\'0.567 0.433 0 0 0  0.558 0.442 0 0 0  0 0.242 0.758 0 0  0 0 0 1 0\'/></filter></svg>#p")',
+  deuteranopia: 'url("data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'d\'><feColorMatrix type=\'matrix\' values=\'0.625 0.375 0 0 0  0.7 0.3 0 0 0  0 0.3 0.7 0 0  0 0 0 1 0\'/></filter></svg>#d")',
+  tritanopia:   'url("data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'t\'><feColorMatrix type=\'matrix\' values=\'0.95 0.05 0 0 0  0 0.433 0.567 0 0  0 0.475 0.525 0 0  0 0 0 1 0\'/></filter></svg>#t")',
+};
+
+function aplicarFiltro(tipo) {
+  document.body.style.filter = FILTROS[tipo] || '';
+}
+
+function removerFiltros() {
+  document.body.style.filter = '';
+}
+
+// ── Menu de acessibilidade (abrir/fechar) ─────────────────────
+const btnAcessibilidade = document.getElementById('acessibilidade-btn');
+const menuAcessibilidade = document.getElementById('acessibilidade-menu');
+
+if (btnAcessibilidade && menuAcessibilidade) {
+  btnAcessibilidade.addEventListener('click', () => {
+    const aberto = menuAcessibilidade.style.display === 'block';
+    menuAcessibilidade.style.display = aberto ? 'none' : 'block';
+    btnAcessibilidade.setAttribute('aria-expanded', String(!aberto));
+  });
+
+// Fechar ao clicar fora do menu
+  document.addEventListener('click', (e) => {
+    if (
+      menuAcessibilidade.style.display === 'block' &&
+      !menuAcessibilidade.contains(e.target) &&
+      !btnAcessibilidade.contains(e.target)
+    ) {
+      menuAcessibilidade.style.display = 'none';
+      btnAcessibilidade.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+// ── Expor funções globalmente (chamadas inline no HTML) ────────
+window.alterarFonte  = alterarFonte;
+window.resetarFonte  = resetarFonte;
+window.aplicarFiltro = aplicarFiltro;
+window.removerFiltros = removerFiltros;

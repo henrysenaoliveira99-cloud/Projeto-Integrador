@@ -1,411 +1,188 @@
-    :root {
-      --yellow: #FFD700;
-      --yellow-dark: #e6c200;
-      --black: #111111;
-      --dark: #1a1a1a;
-      --gray: #333333;
-      --white: #ffffff;
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-heading: 'Oswald', sans-serif;
-      --font-body: 'Lato', sans-serif;
-      --font-script: 'Dancing Script', cursive;
-    }
+/* =========================
+   VARIÁVEIS
+========================= */
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+:root {
+  --yellow: #FFD700;
+  --yellow-dark: #e6c200;
+  --black: #111111;
+  --dark: #1a1a1a;
+  --gray: #333333;
+  --light-gray: #f5f5f5;
+  --white: #ffffff;
 
-    body {
-      font-family: var(--font-body);
-      background: var(--black);
-      color: var(--white);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-heading: 'Oswald', sans-serif;
+  --font-body: 'Lato', sans-serif;
+  --font-script: 'Dancing Script', cursive;
+}
 
-    /* ── TOP BAR ── */
-    .top-bar {
-      background: var(--black);
-      border-bottom: 2px solid var(--yellow);
-      padding: 0 40px;
-      height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .top-bar-brand {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      color: var(--yellow);
-      letter-spacing: 3px;
-      text-decoration: none;
-    }
-    .top-bar-back {
-      font-family: var(--font-heading);
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      color: var(--white);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.2s;
-    }
-    .top-bar-back:hover { color: var(--yellow); }
-    .top-bar-back svg { width: 16px; height: 16px; }
+/* =========================
+   BODY
+========================= */
 
-    /* ── HERO STRIPE ── */
-    .hero-stripe {
-      background: var(--yellow);
-      padding: 28px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-stripe::before {
-      content: '✂';
-      position: absolute;
-      left: 40px;
-      font-size: 3rem;
-      opacity: 0.12;
-      color: var(--black);
-    }
-    .hero-stripe::after {
-      content: '✂';
-      position: absolute;
-      right: 40px;
-      font-size: 3rem;
-      opacity: 0.12;
-      color: var(--black);
-      transform: scaleX(-1);
-    }
-    .hero-stripe h1 {
-      font-family: var(--font-display);
-      font-size: 2.2rem;
-      color: var(--black);
-      letter-spacing: 6px;
-    }
-    .hero-stripe p {
-      font-family: var(--font-heading);
-      font-size: 0.75rem;
-      letter-spacing: 3px;
-      color: rgba(0,0,0,0.55);
-    }
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+      rgba(17,17,17,.85),
+      rgba(17,17,17,.85)
+    ),
+    url("https://images.unsplash.com/photo-1622286342621-4bd786c2447c");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
 
-    /* ── MAIN LAYOUT ── */
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 48px 24px 60px;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    /* ── CARD ── */
-    .card {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-top: 3px solid var(--yellow);
-      border-radius: 10px;
-      width: 100%;
-      max-width: 560px;
-      overflow: hidden;
-      animation: slideUp 0.5s ease both;
-    }
+  font-family: var(--font-body);
+}
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+/* =========================
+   CONTAINER
+========================= */
 
-    .card-header {
-      background: var(--gray);
-      padding: 18px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .card-header-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      letter-spacing: 4px;
-      color: var(--white);
-    }
-    .card-header-step {
-      font-family: var(--font-heading);
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      color: var(--yellow);
-    }
+#cadastro-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
 
-    /* ── PROGRESS BAR ── */
-    .progress-wrap {
-      background: #222;
-      height: 3px;
-    }
-    .progress-bar {
-      height: 3px;
-      background: var(--yellow);
-      transition: width 0.4s ease;
-    }
+/* =========================
+   BOX
+========================= */
 
-    /* ── FORM ── */
-    #cadastroForm {
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+.login-box {
+  width: 100%;
+  max-width: 500px;
 
-    /* Steps */
-    .form-step { display: none; flex-direction: column; gap: 14px; }
-    .form-step.active { display: flex; animation: stepIn 0.35s ease both; }
+  background: rgba(26,26,26,.95);
 
-    @keyframes stepIn {
-      from { opacity: 0; transform: translateX(16px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+  border: 2px solid var(--yellow);
+  border-radius: 15px;
 
-    .step-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      letter-spacing: 3px;
-      color: var(--yellow);
-      margin-bottom: 6px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #2a2a2a;
-    }
+  padding: 40px;
 
-    /* Inputs */
-    .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .input-row.single { grid-template-columns: 1fr; }
+  box-shadow: 0 0 30px rgba(255,215,0,.15);
+}
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .field label {
-      font-family: var(--font-heading);
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,0.45);
-      text-transform: uppercase;
-    }
-    .field .input-wrap {
-      display: flex;
-      align-items: center;
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 5px;
-      padding: 0 12px;
-      height: 44px;
-      gap: 10px;
-      transition: border-color 0.2s;
-    }
-    .field .input-wrap:focus-within {
-      border-color: var(--yellow);
-      box-shadow: 0 0 0 2px rgba(255,215,0,0.08);
-    }
-    .field .input-wrap svg {
-      width: 16px; height: 16px;
-      color: #555;
-      flex-shrink: 0;
-    }
-    .field input {
-      background: none;
-      border: none;
-      outline: none;
-      font-family: var(--font-body);
-      font-size: 0.88rem;
-      color: var(--white);
-      width: 100%;
-    }
-    .field input::placeholder { color: #444; }
-    .field input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
+/* =========================
+   TITULO
+========================= */
 
-    /* Password strength */
-    .pwd-strength {
-      height: 3px;
-      background: #222;
-      border-radius: 2px;
-      margin-top: 4px;
-      overflow: hidden;
-    }
-    .pwd-bar {
-      height: 100%;
-      border-radius: 2px;
-      transition: width 0.3s, background 0.3s;
-      width: 0;
-    }
-    .pwd-hint {
-      font-size: 0.65rem;
-      color: #555;
-      margin-top: 2px;
-    }
+.login-title {
+  text-align: center;
 
-    /* Error */
-    .field-error {
-      font-size: 0.65rem;
-      color: #ff5555;
-      display: none;
-    }
-    .field.invalid .field-error { display: block; }
-    .field.invalid .input-wrap { border-color: #ff5555; }
+  font-family: var(--font-display);
+  font-size: 3rem;
+  letter-spacing: 3px;
 
-    /* Nav buttons */
-    .form-nav {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .btn-back {
-      background: none;
-      border: 2px solid #333;
-      color: #888;
-      font-family: var(--font-heading);
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      padding: 11px 22px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-back:hover { border-color: var(--yellow); color: var(--yellow); }
-    .btn-next {
-      flex: 1;
-      background: var(--yellow);
-      color: var(--black);
-      border: none;
-      padding: 12px;
-      font-family: var(--font-heading);
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn-next:hover { background: var(--yellow-dark); }
-    .btn-submit {
-      flex: 1;
-      background: var(--yellow);
-      color: var(--black);
-      border: none;
-      padding: 13px;
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      letter-spacing: 4px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .btn-submit:hover { background: var(--black); color: var(--yellow); box-shadow: 0 0 0 2px var(--yellow); }
-    .btn-submit .spinner { display: none; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.3); border-top-color: var(--black); border-radius: 50%; animation: spin 0.7s linear infinite; }
-    .btn-submit.loading .spinner { display: block; }
-    .btn-submit.loading span { opacity: 0.6; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+  color: var(--yellow);
 
-    /* Steps indicator */
-    .steps-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 16px 32px 0;
-    }
-    .step-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #333;
-      transition: all 0.3s;
-    }
-    .step-dot.active { background: var(--yellow); transform: scale(1.3); }
-    .step-dot.done { background: var(--yellow); opacity: 0.4; }
+  margin-bottom: 30px;
+}
 
-    /* Success state */
-    .success-state {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      padding: 48px 32px;
-      text-align: center;
-      animation: stepIn 0.4s ease both;
-    }
-    .success-state.visible { display: flex; }
-    .success-icon {
-      width: 72px; height: 72px;
-      background: var(--yellow);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-    }
-    @keyframes pop {
-      from { transform: scale(0); }
-      to   { transform: scale(1); }
-    }
-    .success-title {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      letter-spacing: 4px;
-      color: var(--yellow);
-    }
-    .success-msg {
-      font-size: 0.85rem;
-      color: #888;
-      line-height: 1.7;
-    }
-    .success-cta {
-      background: var(--yellow);
-      color: var(--black);
-      border: none;
-      padding: 12px 32px;
-      font-family: var(--font-display);
-      font-size: 1rem;
-      letter-spacing: 3px;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      margin-top: 8px;
-      transition: background 0.2s;
-    }
-    .success-cta:hover { background: var(--yellow-dark); }
+/* =========================
+   INPUTS
+========================= */
 
-    /* Login link */
-    .login-link {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #555;
-      padding: 0 32px 28px;
-    }
-    .login-link a { color: var(--yellow); text-decoration: none; }
-    .login-link a:hover { text-decoration: underline; }
+.input-group {
+  margin-bottom: 18px;
+}
 
-    /* ── FOOTER ── */
-    .page-footer {
-      background: var(--black);
-      border-top: 2px solid #1a1a1a;
-      text-align: center;
-      padding: 18px;
-      font-family: var(--font-heading);
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      color: #333;
-    }
+.input-group input {
+  width: 100%;
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .input-row { grid-template-columns: 1fr; }
-      .hero-stripe { flex-direction: column; gap: 4px; }
-      #cadastroForm { padding: 24px 20px; }
-    }
+  padding: 14px 16px;
+
+  border: 2px solid var(--gray);
+  border-radius: 8px;
+
+  background: var(--black);
+  color: var(--white);
+
+  font-size: 15px;
+
+  box-sizing: border-box;
+
+  transition: .3s;
+}
+
+.input-group input:focus {
+  outline: none;
+
+  border-color: var(--yellow);
+
+  box-shadow: 0 0 10px rgba(255,215,0,.3);
+}
+
+.input-group input::placeholder {
+  color: #aaa;
+}
+
+/* =========================
+   BOTÃO
+========================= */
+
+.btn-login {
+  width: 100%;
+
+  padding: 15px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: var(--yellow);
+
+  color: var(--black);
+
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.btn-login:hover {
+  background: var(--yellow-dark);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 15px rgba(255,215,0,.4);
+}
+
+/* =========================
+   MENSAGEM
+========================= */
+
+#msgCadastro {
+  margin-top: 20px;
+
+  text-align: center;
+
+  font-weight: bold;
+
+  color: var(--yellow);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 600px) {
+
+  .login-box {
+    padding: 25px;
+  }
+
+  .login-title {
+    font-size: 2.3rem;
+  }
+
+}

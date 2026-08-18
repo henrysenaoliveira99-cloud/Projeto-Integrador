@@ -18,7 +18,11 @@
       <li><a href="#contato">Contato</a></li>
       <li>
         <!-- Botão LOGIN aparece apenas quando deslogado -->
-        <button id="loginNavBtn" onclick="openLoginModal()" class="nav-login-btn">
+        <button 
+        id="loginNavBtn" 
+        onclick="openLoginModal()" 
+        onclick="testeLogin()"
+        class="nav-login-btn">
           &#128100; LOGIN
         </button>
       </li>
@@ -208,6 +212,34 @@
     </div>
   </section>
 
+  <!-- Modal de login -->
+  <div id="loginModal" class="login-modal" aria-modal="true" role="dialog" aria-labelledby="loginModalTitle">
+    <div class="modal-backdrop" onclick="closeLoginModal()"></div>
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeLoginModal()" aria-label="Fechar">&#10005;</button>
+      <h2 id="loginModalTitle" class="login-title">LOGIN</h2>
+
+      <form id="loginForm" novalidate>
+        <div class="input-group">
+          <span class="input-icon">&#128231;</span>
+          <input type="email" id="loginEmail" placeholder="E-mail" autocomplete="email" required>
+        </div>
+
+        <div class="input-group">
+          <span class="input-icon">&#128274;</span>
+          <input type="password" id="loginSenha" placeholder="Senha" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="btn-login">ENTRAR</button>
+
+        <p class="cadastro-link">
+          Nao tem conta?
+          <a href="cadastro.html">Cadastre-se</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
   <!-- Agendamento -->
   <section id="agendamento">
     <div class="agendamento-brand">
@@ -289,6 +321,47 @@
     <p>AVENIDA NEWTON PRADO, 3030 – CENTRO, PIRASSUNUNGA</p>
   </footer>
 
-  <script type="module" src="script.js"></script>
+<!-- Botão de Acessibilidade -->
+<button id="acessibilidade-btn" aria-label="Acessibilidade">
+  ♿
+</button>
+
+<!-- Menu de Acessibilidade -->
+<div id="acessibilidade-menu">
+  <h3>Acessibilidade</h3>
+
+  <button onclick="alterarFonte(2)">
+    Aumentar Fonte +
+  </button>
+
+  <button onclick="alterarFonte(-2)">
+    Diminuir Fonte -
+  </button>
+
+  <button onclick="resetarFonte()">
+    Restaurar Fonte
+  </button>
+
+  <hr>
+
+  <button onclick="aplicarFiltro('protanopia')">
+    Protanopia
+  </button>
+
+  <button onclick="aplicarFiltro('deuteranopia')">
+    Deuteranopia
+  </button>
+
+  <button onclick="aplicarFiltro('tritanopia')">
+    Tritanopia
+  </button>
+
+  <button onclick="removerFiltros()">
+    Remover Filtros
+  </button>
+
+    <script type="module" src="script.js"></script>
+
+</div>
 </body>
 </html>
